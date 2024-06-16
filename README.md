@@ -5,15 +5,25 @@ BondPriceAPI is a RESTful API built in C using the Mongoose library to calculate
 ## Project Structure
 
 |-- include/
+
 | |-- bond_pricing.h
+
 | |-- client.h
+
 |-- src/
+
 | |-- bond_pricing.c
+
 | |-- client.c
+
 | |-- main.c
+
 |-- mongoose.c
+
 |-- mongoose.h
+
 |-- Makefile
+
 
 
 ## Prerequisites
