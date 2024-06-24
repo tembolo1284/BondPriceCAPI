@@ -59,12 +59,20 @@ BondPriceAPI is a RESTful API built in C using the Mongoose library to calculate
 
     **Example 1:**
     ```sh
-    curl -X POST http://localhost:8000/price_bond -d "face_value=1000&coupon_rate=0.05&periods=10&yield_to_maturity=0.04"
+    curl -X POST http://localhost:8000/price_bond -d "face_value=100&coupon_rate=0.05&periods=10&yield_to_maturity=0.04"
     ```
 
     **Example 2:**
     ```sh
     curl -X POST http://localhost:8000/price_bond -d "face_value=500&coupon_rate=0.03&periods=5&yield_to_maturity=0.02"
+    ```
+3. **Fetch SOFR rates:**
+
+    You can use `curl` to send a GET request to fetch the latest SOFR rates.
+
+    **Example:**
+    ```sh
+    curl -X GET http://localhost:8000/fetch_sofr_rates
     ```
 
 ## API Endpoint
@@ -88,4 +96,35 @@ curl -X POST http://localhost:8000/price_bond -d "face_value=1000&coupon_rate=0.
 **Example Response**
 
 { "bond_price": 108.10900000 }
+
+### `/fetch_sofr_rates`
+
+- **Method:** GET
+- **Description:** Fetch the latest SOFR rates from the FRED API
+- **Parameters:** None
+- **Response:** JSON object containing an array of SOFR rates.
+
+**Request:**
+
+```sh
+curl -X GET http://localhost:8000/fetch_sofr_rates
+
+**Example Response**
+
+{
+    "sofr_rates": [
+        5.32000000,
+        5.31000000,
+        5.31000000,
+        ...
+    ]
+}
+
+**Running Tests*
+
+Run the below:
+
+```
+make test
+```
 

@@ -24,12 +24,18 @@ CFILES=$(foreach D,$(CODEDIRS),$(wildcard $(D)/*.c)) mongoose.c
 OBJECTS=$(patsubst %.c,%.o,$(filter-out $(TESTS), $(CFILES)))
 DEPFILES=$(patsubst %.c,%.d,$(CFILES))
 
+# Linker flags
+LDFLAGS = -lcurl -ljson-c -lgcov -lm -lpthread --coverage
+
+# Test linker flags
+TEST_LDFLAGS = -lcriterion $(LDFLAGS)
+
 # Default target
 all: $(BINARY)
 
 # Link the main binary
 $(BINARY): $(OBJECTS)
-	$(CC) -o $@ $^ -lgcov -lm
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 # Compile object files
 %.o: %.c
@@ -54,7 +60,7 @@ diff:
 # Compile test binaries
 $(TEST)/bin/%: $(TEST)/%.c $(OBJECTS)
 	mkdir -p $(TEST)/bin
-	$(CC) $(CFLAGS) -o $@ $^ -lcriterion --coverage -lm
+	$(CC) $(CFLAGS) -o $@ $^ $(TEST_LDFLAGS)
 
 # Run tests
 test: $(TESTBINS)
