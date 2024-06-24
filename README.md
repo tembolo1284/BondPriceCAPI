@@ -120,6 +120,14 @@ curl -X GET http://localhost:8000/fetch_sofr_rates
     ]
 }
 
+**Request:**
+```
+curl -X POST http://localhost:8000/price_swap -d "notional=1000000&fixed_rate=0.02&periods=10&floating_rates=0.015,0.016,0.017,0.018,0.019,0.02,0.021,0.022,0.023,0.024"
+```
+
+**Example Response**
+{"swap_price": 5000.00000000}
+
 **Running Tests*
 
 Run the below:

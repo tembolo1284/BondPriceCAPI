@@ -1,25 +1,21 @@
+#include <stdlib.h>
 #include "../include/interest_rate_swap.h"
-#include <math.h>
 
-double calculate_fixed_leg_pv(double notional, double fixed_rate, int periods, double discount_rate) {
-    double pv = 0.0;
-    for (int i = 1; i <= periods; ++i) {
-        pv += (notional * fixed_rate) / pow(1 + discount_rate, i);
-    }
-    return pv;
+double calculate_fixed_leg(double notional, double fixed_rate, int periods) {
+    return notional * fixed_rate * periods;
 }
 
-double calculate_floating_leg_pv(double notional, const double *sofr_rates, int periods, double discount_rate) {
-    double pv = 0.0;
-    for (int i = 1; i <= periods; ++i) {
-        pv += (notional * sofr_rates[i - 1]) / pow(1 + discount_rate, i);
+double calculate_floating_leg(double notional, double *floating_rates, int floating_rate_count) {
+    double floating_leg = 0.0;
+    for (int i = 0; i < floating_rate_count; i++) {
+        floating_leg += notional * floating_rates[i];
     }
-    return pv;
+    return floating_leg;
 }
 
-double price_interest_rate_swap(double notional, double fixed_rate, const double *sofr_rates, int periods, double discount_rate) {
-    double fixed_leg_pv = calculate_fixed_leg_pv(notional, fixed_rate, periods, discount_rate);
-    double floating_leg_pv = calculate_floating_leg_pv(notional, sofr_rates, periods, discount_rate);
-    return floating_leg_pv - fixed_leg_pv;
+double price_swap(InterestRateSwap *swap) {
+    double fixed_leg_value = calculate_fixed_leg(swap->notional, swap->fixed_rate, swap->periods);
+    double floating_leg_value = calculate_floating_leg(swap->notional, swap->floating_rates, swap->floating_rate_count);
+    return fixed_leg_value - floating_leg_value;
 }
 

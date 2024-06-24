@@ -1,11 +1,17 @@
 #ifndef INTEREST_RATE_SWAP_H
 #define INTEREST_RATE_SWAP_H
 
-#include <stddef.h>
+typedef struct {
+    double notional;
+    double fixed_rate;
+    int periods;
+    double *floating_rates;
+    int floating_rate_count;
+} InterestRateSwap;
 
-double calculate_fixed_leg_pv(double notional, double fixed_rate, int periods, double discount_rate);
-double calculate_floating_leg_pv(double notional, const double *sofr_rates, int periods, double discount_rate);
-double price_interest_rate_swap(double notional, double fixed_rate, const double *sofr_rates, int periods, double discount_rate);
+double calculate_fixed_leg(double notional, double fixed_rate, int periods);
+double calculate_floating_leg(double notional, double *floating_rates, int floating_rate_count);
+double price_swap(InterestRateSwap *swap);
 
 #endif // INTEREST_RATE_SWAP_H
 
